@@ -146,7 +146,7 @@ var showMore = {
 	loadNewData : function() {
 		populateTheCells.init(startCell);
 	}
-}
+};
 
 
 var zipEntry = {
@@ -155,7 +155,7 @@ var zipEntry = {
 	},
 	bindEnter : function() {
 		$(document).keypress(function(e){
-			if (e.which == 13){
+			if (e.which === 13){
 				zipEntry.entered();
 			}
 		});
@@ -164,7 +164,7 @@ var zipEntry = {
 		zipCode = Number($('#zip-code').val());
 		fourSquare.init();
 	}
-}
+};
 
 
 
@@ -185,8 +185,8 @@ $(function() {
 			fourSquare.init();
 		} else {
 			setTimeout(function(){checkForZip()},1000)
-		};
-	};
+		}
+	}
 	checkForZip();
 
 });
