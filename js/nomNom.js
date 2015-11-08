@@ -1,32 +1,56 @@
 //Class
 var Row = function(elementsPerRow) {
 	this.elementsPerRow = elementsPerRow;
-}
+};
 
 //Methods
 Row.prototype.populateHtml = function() {
 	var honeyCombHtml = '<div class="row">';
 	for (i = 0; i < this.elementsPerRow; i++) {
-		if ($('.row').length == 2 && i == 3) {
-			honeyCombHtml += '<div class="hex" id="show-more">';
-			honeyCombHtml += '<div class="corner-1"></div>';
-			honeyCombHtml += '<div class="corner-2"></div><p style="line-height:86px;">SHOW MORE</p>';
-			honeyCombHtml += '</div>';
+		if ($('.row').length === 2 && i === 3) {
+			honeyCombHtml += '<div class="hex" id="show-more"><div class="corner-1"></div><div class="corner-2"></div><p style="line-height:86px;">SHOW MORE</p></div>';
 		}
 		else {
-			honeyCombHtml += '<div class="hex cell" style="background-image: url(http://www.queness.com/resources/html/css3-hexagon/images/2.jpg);">';
-			honeyCombHtml += '<div class="corner-1"></div>';
-			honeyCombHtml += '<div class="corner-2"></div>';
-			honeyCombHtml += '</div>';
+			honeyCombHtml += '<div class="hex cell" style="background-image: url(http://www.queness.com/resources/html/css3-hexagon/images/2.jpg);"><div class="corner-1"></div><div class="corner-2"></div></div>';
 		}
 	}	
 	honeyCombHtml += '</div>';
 	$('#honeyComb').append(honeyCombHtml);
-}
+};
 
 //TODO: Would like to extend the "elements per row" to be dynamic based on browser/device width.. this is currently static for desktop.
-var rows = [new Row(3), new Row(4), new Row(4)]
+var rows = [new Row(3), new Row(4), new Row(4)];
 var startCell = 0;
+
+
+
+function populateTheCells(startCell){
+	$('.cell').each(function(i){
+			var j = startCell + i;
+			//populate the cells with the background image and name/address data
+			$(this).css('background-image', 'url(' + fourSquare.config.foodSpots[j].img + ')');
+			
+			//building the mouseover layer
+			$(this).find('.flip-side').remove();
+			$(this).find('.corner-2').after('<div class="flip-side"><span class="title">' + fourSquare.config.foodSpots[j].name + '</span><hr /><span class="address">' + fourSquare.config.foodSpots[j].address + '</span></div>');
+
+			//account for cells without images
+			$(this).removeClass('display-flip-side');
+			if (fourSquare.config.foodSpots[j].img == "../img/noimage.png")
+				$(this).addClass('display-flip-side');
+			
+			//add mouseover binds to cells with images
+			else {
+				$(this).on('mouseover',function(){
+					$(this).addClass('display-flip-side');
+				});
+				$(this).on('mouseout',function(){
+					$(this).removeClass('display-flip-side');
+				});
+			}
+	});
+};
+
 
 //singleton for retrieving foursquare data (name, address, image, likes)
 var fourSquare = {
@@ -38,7 +62,7 @@ var fourSquare = {
 	},
 	orderResultsByRank : function() {
 		fourSquare.config.foodSpots.sort(function(a,b){
-			return b.likes-a.likes
+			return b.likes-a.likes;
 		});
 		populateTheCells(0);
 	},
@@ -66,7 +90,7 @@ var fourSquare = {
 				console.log("Error pinging FourSquare");
 			}
 		}).done(function(){
-			setTimeout(function(){fourSquare.orderResultsByRank()},2000);
+			setTimeout(function(){fourSquare.orderResultsByRank();},2000);
 		});	
 	},
 	getNumberOfLikes : function(resultsId,index) {
@@ -81,7 +105,7 @@ var fourSquare = {
 			url: httpRequest,
 			dataType: "json",
 			success: function(json) {
-				fourSquare.config.foodSpots[index].likes = json.response.likes.count
+				fourSquare.config.foodSpots[index].likes = json.response.likes.count;
 			},
 			error: function(json) {
 				console.log("Error getting Likes");
@@ -99,7 +123,6 @@ var fourSquare = {
 			url: httpRequest,
 			dataType: "json",
 			success: function(json) {
-				fourSquare.config.foodSpots[index].img
 				if (json.response.photos.count === 0)
 						fourSquare.config.foodSpots[index].img = '../img/noimage.png';
 				else
@@ -109,8 +132,8 @@ var fourSquare = {
 				console.log("Error getting Images");
 			}
 		});	
-	}	
-}
+	};
+};
 
 var showMore = {
 	init : function() {
@@ -141,33 +164,6 @@ var zipEntry = {
 		fourSquare.init();
 	}
 }
-
-function populateTheCells(startCell){
-	$('.cell').each(function(i){
-			var j = startCell + i;
-			//populate the cells with the background image and name/address data
-			$(this).css('background-image', 'url(' + fourSquare.config.foodSpots[j].img + ')');
-			
-			//building the mouseover layer
-			$(this).find('.flip-side').remove();
-			$(this).find('.corner-2').after('<div class="flip-side"><span class="title">' + fourSquare.config.foodSpots[j].name + '</span><hr /><span class="address">' + fourSquare.config.foodSpots[j].address + '</span></div>');
-
-			//account for cells without images
-			$(this).removeClass('display-flip-side');
-			if (fourSquare.config.foodSpots[j].img == "../img/noimage.png")
-				$(this).addClass('display-flip-side');
-			
-			//add mouseover binds to cells with images
-			else {
-				$(this).on('mouseover',function(){
-					$(this).addClass('display-flip-side');
-				});
-				$(this).on('mouseout',function(){
-					$(this).removeClass('display-flip-side');
-				});
-			}
-	});
-};
 
 
 
