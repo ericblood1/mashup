@@ -8,7 +8,7 @@ Row.prototype.populateHtml = function() {
 	var honeyCombHtml = '<div class="row">';
 	for (i = 0; i < this.elementsPerRow; i++) {
 		if ($('.row').length === 2 && i === 3) {
-			honeyCombHtml += '<div class="hex" id="show-more"><div class="corner-1"></div><div class="corner-2"></div><p style="line-height:86px;">SHOW MORE</p></div>';
+			honeyCombHtml += '<div class="hex" id="show-more"><div class="corner-1"></div><div class="corner-2"></div><p style="line-height:86px;">Loading...</p></div>';
 		}
 		else {
 			honeyCombHtml += '<div class="hex cell"><div class="corner-1"></div><div class="corner-2"></div></div>';
@@ -26,31 +26,33 @@ var fourSquare;
 
 var populateTheCells = {
 	init : function(startCell) {
-	$('.cell').each(function(i){
-			var j = startCell + i;
-			//populate the cells with the background image and name/address data
-			if (fourSquare.config.foodSpots[j].img !== "undefined")
-				$(this).css('background-image', 'url(' + fourSquare.config.foodSpots[j].img + ')');
-			
-			//building the mouseover layer
-			$(this).find('.flip-side').remove();
-			$(this).find('.corner-2').after('<div class="flip-side"><span class="title">' + fourSquare.config.foodSpots[j].name + '</span><hr /><span class="address">' + fourSquare.config.foodSpots[j].address + '</span></div>');
+		$('.cell').each(function(i){
+				var j = startCell + i;
+				//populate the cells with the background image and name/address data
+				if (typeof fourSquare.config.foodSpots[j] !== "undefined") {
+					$(this).css('background-image', 'url(' + fourSquare.config.foodSpots[j].img + ')');
+					
+					//building the mouseover layer
+					$(this).find('.flip-side').remove();
+					$(this).find('.corner-2').after('<div class="flip-side"><span class="title">' + fourSquare.config.foodSpots[j].name + '</span><hr /><span class="address">' + fourSquare.config.foodSpots[j].address + '</span></div>');
 
-			//account for cells without images
-			$(this).removeClass('display-flip-side');
-			if (fourSquare.config.foodSpots[j].img === "../img/noimage.png")
-				$(this).addClass('display-flip-side');
-			
-			//add mouseover binds to cells with images
-			else {
-				$(this).on('mouseover',function(){
-					$(this).addClass('display-flip-side');
-				});
-				$(this).on('mouseout',function(){
+					//account for cells without images
 					$(this).removeClass('display-flip-side');
-				});
-			}
-	});		
+					if (fourSquare.config.foodSpots[j].img === "../img/noimage.png")
+						$(this).addClass('display-flip-side');
+					
+					//add mouseover binds to cells with images
+					else {
+						$(this).on('mouseover',function(){
+							$(this).addClass('display-flip-side');
+						});
+						$(this).on('mouseout',function(){
+							$(this).removeClass('display-flip-side');
+						});
+					}
+				}
+		});
+		$('#show-more').find('p').text("SHOW MORE");
 	}
 };
 
@@ -163,6 +165,7 @@ var zipEntry = {
 	},
 	entered : function() {
 		zipCode = Number($('#zip-code').val());
+		$('#show-more').find('p').text("Loading...");
 		fourSquare.init();
 	}
 };
