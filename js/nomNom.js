@@ -24,7 +24,8 @@ var startCell = 0;
 
 
 
-function populateTheCells(startCell){
+var populateTheCells = {
+	init : function(startCell) {
 	$('.cell').each(function(i){
 			var j = startCell + i;
 			//populate the cells with the background image and name/address data
@@ -36,7 +37,7 @@ function populateTheCells(startCell){
 
 			//account for cells without images
 			$(this).removeClass('display-flip-side');
-			if (fourSquare.config.foodSpots[j].img == "../img/noimage.png")
+			if (fourSquare.config.foodSpots[j].img === "../img/noimage.png")
 				$(this).addClass('display-flip-side');
 			
 			//add mouseover binds to cells with images
@@ -48,8 +49,10 @@ function populateTheCells(startCell){
 					$(this).removeClass('display-flip-side');
 				});
 			}
-	});
-};
+	});		
+	}
+}
+
 
 
 //singleton for retrieving foursquare data (name, address, image, likes)
@@ -64,7 +67,7 @@ var fourSquare = {
 		fourSquare.config.foodSpots.sort(function(a,b){
 			return b.likes-a.likes;
 		});
-		populateTheCells(0);
+		populateTheCells.init(0);
 	},
 	pingFourSquare : function() {
 		var httpRequest = 'https://api.foursquare.com/v2/venues/search?client_id=5TN04INYIF1T2C2QIO24I1YV2R41KTDN0YAYIRKRANEPUAPS&client_secret=0MO2N2SNHPNYF21LGYQSTYB3USPDXXEIJXV40UFLQDF4IHAJ&v=20130815&near=' + zipCode + '&categoryId=4d4b7105d754a06374d81259&limit=31&radius=200';
@@ -143,7 +146,7 @@ var showMore = {
 		});
 	},
 	loadNewData : function() {
-		populateTheCells(startCell);
+		populateTheCells.init(startCell);
 	}
 }
 
