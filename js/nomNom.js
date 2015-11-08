@@ -180,11 +180,11 @@ $(function() {
 
 	//Wait for the Zip Code before pinging Four Square
 	function checkForZip(){
-		if (zipCodeFlag && zipCode != "undefined") {
+		if (zipCodeFlag && zipCode !== "undefined") {
 			console.log("checking for resturants in the " + zipCode + " area");
 			fourSquare.init();
 		} else {
-			setTimeout(function(){checkForZip()},1000)
+			setTimeout(function(){checkForZip();},1000);
 		}
 	}
 	checkForZip();
