@@ -29,7 +29,8 @@ var populateTheCells = {
 	$('.cell').each(function(i){
 			var j = startCell + i;
 			//populate the cells with the background image and name/address data
-			$(this).css('background-image', 'url(' + fourSquare.config.foodSpots[j].img + ')');
+			if (fourSquare.config.foodSpots[j].img !== "undefined")
+				$(this).css('background-image', 'url(' + fourSquare.config.foodSpots[j].img + ')');
 			
 			//building the mouseover layer
 			$(this).find('.flip-side').remove();
