@@ -166,6 +166,7 @@ var zipEntry = {
 	entered : function() {
 		zipCode = Number($('#zip-code').val());
 		$('#show-more').find('p').text("Loading...");
+		startCell = 0;
 		fourSquare.init();
 	}
 };
