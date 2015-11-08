@@ -21,7 +21,7 @@ Row.prototype.populateHtml = function() {
 //TODO: Would like to extend the "elements per row" to be dynamic based on browser/device width.. this is currently static for desktop.
 var rows = [new Row(3), new Row(4), new Row(4)];
 var startCell = 0;
-
+var fourSquare;
 
 
 var populateTheCells = {
@@ -51,7 +51,7 @@ var populateTheCells = {
 			}
 	});		
 	}
-}
+};
 
 
 
@@ -81,7 +81,6 @@ var fourSquare = {
 			dataType: "json",
 			success: function(json) {
 				$(json.response.venues).each(function(i){
-					console.log(this.name);
 					fourSquare.config.foodSpots[i] = {};
 					fourSquare.config.foodSpots[i].name = this.name;
 					fourSquare.config.foodSpots[i].address = this.location.formattedAddress[0];
@@ -98,7 +97,6 @@ var fourSquare = {
 	},
 	getNumberOfLikes : function(resultsId,index) {
 		var httpRequest = 'https://api.foursquare.com/v2/venues/' + resultsId + '/likes?client_id=5TN04INYIF1T2C2QIO24I1YV2R41KTDN0YAYIRKRANEPUAPS&client_secret=0MO2N2SNHPNYF21LGYQSTYB3USPDXXEIJXV40UFLQDF4IHAJ&v=20130815';
-		console.log(resultsId);
 		$.ajax({
 			xhrFields: {
 				withCredentials: false
@@ -135,7 +133,7 @@ var fourSquare = {
 				console.log("Error getting Images");
 			}
 		});	
-	};
+	}
 };
 
 var showMore = {
