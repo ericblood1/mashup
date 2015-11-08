@@ -11,7 +11,7 @@ Row.prototype.populateHtml = function() {
 			honeyCombHtml += '<div class="hex" id="show-more"><div class="corner-1"></div><div class="corner-2"></div><p style="line-height:86px;">SHOW MORE</p></div>';
 		}
 		else {
-			honeyCombHtml += '<div class="hex cell" style="background-image: url(http://www.queness.com/resources/html/css3-hexagon/images/2.jpg);"><div class="corner-1"></div><div class="corner-2"></div></div>';
+			honeyCombHtml += '<div class="hex cell"><div class="corner-1"></div><div class="corner-2"></div></div>';
 		}
 	}	
 	honeyCombHtml += '</div>';
